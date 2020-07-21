@@ -1,6 +1,7 @@
-#Wallets Africa Go API Wrapper
+# Wallets Africa Go API Wrapper
 [![Build Status](https://travis-ci.org/jcobhams/gowalletsafrica.svg?branch=master)](https://travis-ci.org/jcobhams/gowalletsafrica)
 [![codecov](https://codecov.io/gh/jcobhams/gowalletsafrica/branch/master/graph/badge.svg)](https://codecov.io/gh/jcobhams/gowalletsafrica)
+[![GoDoc](https://godoc.org/github.com/jcobhams/gowalletsafrica?status.svg)](https://godoc.org/github.com/jcobhams/gowalletsafrica)
 
 
 ### Installation
