@@ -6,18 +6,26 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func (w *wallets) Generate(currency Currency, firstName, lastName, email, dateOfBirth string) (Wallet, error) {
 	wallet := Wallet{}
 
 	payloadValues := payloadBody{
-		"SecretKey":   w.secretKey,
-		"Currency":    currency,
-		"FirstName":   firstName,
-		"LastName":    lastName,
-		"Email":       email,
-		"DateOfBirth": dateOfBirth,
+		"SecretKey": w.secretKey,
+		"Currency":  currency,
+		"FirstName": firstName,
+		"LastName":  lastName,
+		"Email":     email,
+	}
+
+	if dateOfBirth != "" {
+		_, err := time.Parse(DateTimeFormat, dateOfBirth)
+		if err != nil {
+			return wallet, err
+		}
+		payloadValues["DateOfBirth"] = dateOfBirth
 	}
 
 	payload, err := json.Marshal(payloadValues)
