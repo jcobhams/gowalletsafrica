@@ -67,7 +67,7 @@ func (s *self) Transactions(currency Currency, transactionType TransactionType, 
 	}
 
 	if dateFrom != "" {
-		_, err := time.Parse("2006-01-02", dateFrom)
+		_, err := time.Parse(DateTimeFormat, dateFrom)
 		if err != nil {
 			return transactions, err
 		}
@@ -75,7 +75,7 @@ func (s *self) Transactions(currency Currency, transactionType TransactionType, 
 	}
 
 	if dateTo != "" {
-		_, err := time.Parse("2006-01-02", dateTo)
+		_, err := time.Parse(DateTimeFormat, dateTo)
 		if err != nil {
 			return transactions, err
 		}

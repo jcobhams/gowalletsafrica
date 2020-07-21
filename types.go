@@ -63,17 +63,23 @@ type (
 	}
 
 	Wallet struct {
-		Username      string
-		AccountNumber string
-		BVN           string
-		City          string
-		Country       string
-		DateCreated   string
-		DateOfBirth   string
-		Email         string
-		FirstName     string
-		LastName      string
-		PhoneNumber   string
+		Username         string
+		AccountNumber    string
+		BVN              string
+		City             string
+		Country          string
+		DateCreated      string
+		DateOfBirth      string
+		Email            string
+		FirstName        string
+		LastName         string
+		PhoneNumber      string
+		DateSignedup     string
+		AccountName      string
+		AccountNo        string
+		AvailableBalance float64
+		Bank             string
+		Password         string
 	}
 
 	AirtimeProvider struct {
