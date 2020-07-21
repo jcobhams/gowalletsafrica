@@ -21,7 +21,7 @@ func (w *wallets) Generate(currency Currency, firstName, lastName, email, dateOf
 	}
 
 	if dateOfBirth != "" {
-		_, err := time.Parse(DateTimeFormat, dateOfBirth)
+		_, err := time.Parse(DateFormat, dateOfBirth)
 		if err != nil {
 			return wallet, err
 		}
@@ -70,4 +70,46 @@ func (w *wallets) Generate(currency Currency, firstName, lastName, email, dateOf
 	wallet.AvailableBalance = data["AvailableBalance"].(float64)
 
 	return wallet, nil
+}
+
+func (w *wallets) Credit(amount float64, transactionReference, phoneNumber string) (CreditWalletResult, error) {
+	result := CreditWalletResult{}
+	payloadValues := payloadBody{
+		"TransactionReference": transactionReference,
+		"Amount":               amount,
+		"PhoneNumber":          phoneNumber,
+		"SecretKey":            w.secretKey,
+	}
+
+	payload, err := json.Marshal(payloadValues)
+	if err != nil {
+		return result, err
+	}
+
+	req, err := http.NewRequest("POST", fmt.Sprintf("%v/wallet/credit", w.APIURL), bytes.NewReader(payload))
+	if err != nil {
+		return result, err
+	}
+
+	resp, err := w.makeRequest(req)
+	if err != nil {
+		return result, err
+	}
+	defer resp.Body.Close()
+
+	decodedResponseBody, err := w.unmarshallJson(resp.Body)
+	if err != nil {
+		return result, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return result, errors.New(fmt.Sprintf("Request Failed - Error Code: %v | Message: %v", w.getResponseCode(decodedResponseBody), w.getResponseMessage(decodedResponseBody)))
+	}
+
+	data := decodedResponseBody["Data"].(map[string]interface{})
+	result.AmountCredited = data["AmountCredited"].(float64)
+	result.RecipientWalletBalance = data["RecipientWalletBalance"].(float64)
+	result.SenderWalletBalance = data["SenderWalletBalance"].(float64)
+
+	return result, nil
 }
