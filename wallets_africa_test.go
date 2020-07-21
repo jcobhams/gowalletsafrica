@@ -100,6 +100,16 @@ func TestPayouts_BankDetails(t *testing.T) {
 	assert.Equal(t, 10.00, details.Amount)
 }
 
+//Wallets Tests
+func TestWallets_Generate(t *testing.T) {
+	wallet, _ := client.Wallets.Generate(CurrencyNigeria, "John", "Doe", "johndoe@example.com", "1992-10-03")
+
+	assert.Equal(t, "johndoe@example.com", wallet.Email)
+	assert.Equal(t, "John", wallet.FirstName)
+	assert.Equal(t, "Doe", wallet.LastName)
+	assert.Equal(t, "1992-10-03", wallet.DateOfBirth)
+}
+
 //StartServer initializes a test HTTP server useful for request mocking, Integration tests and Client configuration
 func MockAPIServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -274,6 +284,29 @@ func MockAPIServer(t *testing.T) *httptest.Server {
 			w.WriteHeader(200)
 			fmt.Fprintf(w, successBody)
 
+		case "/wallet/generate":
+			successBody := `{
+  "Response": {
+    "ResponseCode": "200",
+    "Message": "Wallet created successfully"
+  },
+  "Data": {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "Email": "johndoe@example.com",
+    "PhoneNumber": "13267006065",
+    "BVN": null,
+    "Password": "hacrenrgovhs66fwnfm4",
+    "DateOfBirth": "1992-10-03",
+    "DateSignedup": "4/20/2020 8:59:34 PM",
+    "AccountNo": "9915937003",
+    "Bank": "Providus Bank",
+    "AccountName": "John Doe",
+    "AvailableBalance": 0
+  }
+}`
+			w.WriteHeader(200)
+			fmt.Fprintf(w, successBody)
 		}
 	}))
 	return server
