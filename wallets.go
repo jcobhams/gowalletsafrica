@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+//Generate creates a new sub wallet with the provided args or returns an error
+//Documentation: https://documenter.getpostman.com/view/10058163/SWLk4RPL?version=latest#8d0016d5-56dd-4236-8911-8eb82e0b359d
 func (w *wallets) Generate(currency Currency, firstName, lastName, email, dateOfBirth string) (Wallet, error) {
 	wallet := Wallet{}
 
@@ -72,6 +74,8 @@ func (w *wallets) Generate(currency Currency, firstName, lastName, email, dateOf
 	return wallet, nil
 }
 
+//Credit adds an amount of money into the  wallet of the phoneNumber provided or returns error
+//https://documenter.getpostman.com/view/10058163/SWLk4RPL?version=latest#2ae8f8df-e580-4936-b02b-2fc0a9e20603
 func (w *wallets) Credit(amount float64, transactionReference, phoneNumber string) (CreditWalletResult, error) {
 	result := CreditWalletResult{}
 	payloadValues := payloadBody{
