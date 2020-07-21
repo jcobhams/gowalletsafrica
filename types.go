@@ -114,6 +114,12 @@ type (
 		WalletCurrency string
 	}
 
+	CreditWalletResult struct {
+		AmountCredited         float64
+		RecipientWalletBalance float64
+		SenderWalletBalance    float64
+	}
+
 	Transactions     []Transaction
 	Wallets          []Wallet
 	AirtimeProviders []AirtimeProvider

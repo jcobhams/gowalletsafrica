@@ -110,6 +110,14 @@ func TestWallets_Generate(t *testing.T) {
 	assert.Equal(t, "1992-10-03", wallet.DateOfBirth)
 }
 
+func TestWallets_Credit(t *testing.T) {
+	result, _ := client.Wallets.Credit(1000.0, "9821358010", "08112498539")
+
+	assert.Equal(t, 1000.0, result.AmountCredited)
+	assert.Equal(t, 1054.00, result.RecipientWalletBalance)
+	assert.Equal(t, 7305140.16, result.SenderWalletBalance)
+}
+
 //StartServer initializes a test HTTP server useful for request mocking, Integration tests and Client configuration
 func MockAPIServer(t *testing.T) *httptest.Server {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -304,6 +312,21 @@ func MockAPIServer(t *testing.T) *httptest.Server {
     "AccountName": "John Doe",
     "AvailableBalance": 0
   }
+}`
+			w.WriteHeader(200)
+			fmt.Fprintf(w, successBody)
+
+		case "/wallet/credit":
+			successBody := `{
+	"Response": {
+		"ResponseCode": "200",
+		"Message": "Transaction Completed successfully"
+	},
+	"Data": {
+		"AmountCredited": 1000.0,
+		"RecipientWalletBalance": 1054.00,
+		"SenderWalletBalance": 7305140.16
+	}
 }`
 			w.WriteHeader(200)
 			fmt.Fprintf(w, successBody)

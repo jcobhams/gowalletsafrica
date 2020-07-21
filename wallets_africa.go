@@ -22,7 +22,7 @@ const (
 
 	RequestTimeout time.Duration = 5 * time.Second
 
-	DateTimeFormat string = "2006-01-02"
+	DateFormat string = "2006-01-02"
 
 	CurrencyNigeria Currency = "NGN"
 	CurrencyUSA     Currency = "USD"
